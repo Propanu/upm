@@ -106,17 +106,9 @@ services:
       - BUILDCORDOVA=ON
     command: bash -c "./scripts/run-cmake.sh && cd build && make -j8 && make -j8"
 
-  node4:
+  node6:
     extends: base
-    image: inteliotdevkit/upm-node4
+    image: inteliotdevkit/upm-node6
     environment:
       - BUILDSWIGNODE=ON
     command: bash -c "./scripts/run-cmake.sh && cd build && make -j8 && make -j8 install && ldconfig && ctest --output-on-failure -E examplenames_js"
-
-  node5:
-    extends: node4
-    image: inteliotdevkit/upm-node5
-
-  node6:
-    extends: node4
-    image: inteliotdevkit/upm-node6
