@@ -4,6 +4,13 @@ Changelog                         {#changelog}
 Here's a list summarizing some of the key undergoing changes to our library
 from earlier versions:
 
+### v2.0.1
+
+ * Revised documentation to reflect project transfer to the Eclipse Foundation
+ * Removed Python 2 bindings, old node.js versions from CI, disabled node.js
+ builds by default
+ * Updated and extended installation instructions for some Linux distributions
+
 ### v2.0.0
 
  * Reworked existing interfaces and extended the list to include iAcceleration,
