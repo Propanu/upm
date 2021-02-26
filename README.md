@@ -29,7 +29,7 @@ iWater.
 ```
 The developer community is invited to propose new interfaces for actuator types.
 
-The UPM project is joining the Eclipse Foundation as an Eclipse IoT project.
+The UPM project is an Eclipse IoT project.
 You can read more about this [here](https://projects.eclipse.org/proposals/eclipse-upm).
 
 ### Example
@@ -75,9 +75,9 @@ Supported [sensor list](http://iotdk.intel.com/docs/master/upm/modules.html) fro
 ### IDE Support and More
 
 The UPM project includes support for multiple industrial-grade sensors, actuators, radios,
-protocols and standards in use today. It is also highly integrated with the Eclipse IDE 
-through the help of the Foundation's partners.
-Learn more about [tools](https://software.intel.com/en-us/tools-by-segment/systems-iot).
+protocols and standards in use today. It is also highly integrated with the Eclipse IDE
+version shipped with the Intel® oneAPI IoT Toolkit.
+[Learn more](https://software.intel.com/content/www/us/en/develop/tools/oneapi/iot-toolkit.html).
 
 ### Installing UPM
 
