@@ -35,7 +35,7 @@ class loadModule(unittest.TestCase):
     class will assert and provide a list of failing modules.'''
     def test_load_module(self):
         # Python version provided on the command line
-        py_search_str = '../build/src/*/python2.7/*.py'
+        py_search_str = '../build/src/*/python3/*.py'
         if len(self.argv) > 0:
            py_search_str = self.argv[0]
 

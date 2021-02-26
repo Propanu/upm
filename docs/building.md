@@ -75,7 +75,7 @@ Disabling python module building
 ~~~~~~~~~~~~~
 Setting the python library to use:
 ~~~~~~~~~~~~~
--DPYTHON_LIBRARY:FILEPATH=/usr/lib/libpython2.7.so.1.0
+-DPYTHON_LIBRARY:FILEPATH=/usr/lib/libpython3.so
 ~~~~~~~~~~~~~
 Building documentation
 ~~~~~~~~~~~~~
@@ -109,13 +109,13 @@ for the lcd but will NOT install dependencies.
 Often developers are only interested in building one module or even just the
 python/node module to do some quick testing using scripting. In order to do
 this you need to use the target name for the python or node module you want to
-rebuild. For example, the lcd module target will have a python2 target prefixed
-by _pyupm_ (_pyupm_lcd-python2). Modules not using the UPM cmake macros may
-have different naming.  To build the python2 lcd module (and all dependencies),
+rebuild. For example, the lcd module target will have a python3 target prefixed
+by _pyupm_ (_pyupm_lcd-python3). Modules not using the UPM cmake macros may
+have different naming.  To build the python3 lcd module (and all dependencies),
 use the following make target:
 
 ~~~~~~~~~~~~~
-make _pyupm_lcd-python2
+make _pyupm_lcd-python3
 ~~~~~~~~~~~~~
 
 Sometimes you want to build a small C++ example against an installed library.
@@ -182,7 +182,7 @@ docker build and run command easier. But you can just use docker to build and ru
 ```sh
 # Build upm documentation
 $ docker-compose run doc
-# Build upm python2 and python3 packages and run python tests
+# Build upm python packages and run python tests
 $ docker-compose run python
 # Build upm java package and run java tests
 $ docker-compose run java

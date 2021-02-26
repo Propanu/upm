@@ -197,7 +197,6 @@ function (_print_target_summary)
   list(LENGTH UPM_TARGETS_CXX N_CXX)
   list(LENGTH UPM_TARGETS_JAVA N_JAVA)
   list(LENGTH UPM_TARGETS_NODEJS N_NODEJS)
-  list(LENGTH UPM_TARGETS_PYTHON2 N_PYTHON2)
   list(LENGTH UPM_TARGETS_PYTHON3 N_PYTHON3)
 
   message(STATUS "UPM target summary:")
@@ -205,7 +204,6 @@ function (_print_target_summary)
   message(STATUS "\tFound CXX     libraries: ${N_CXX}")
   message(STATUS "\tFound JAVA    libraries: ${N_JAVA}")
   message(STATUS "\tFound NODEJS  libraries: ${N_NODEJS}")
-  message(STATUS "\tFound PYTHON2 libraries: ${N_PYTHON2}")
   message(STATUS "\tFound PYTHON3 libraries: ${N_PYTHON3}")
 endfunction (_print_target_summary)
 
@@ -325,21 +323,21 @@ macro(_upm_swig_python)
   set (CMAKE_CURRENT_PYTHON_BINARY_DIR
       ${CMAKE_CURRENT_BINARY_DIR}/python${PYTHON_VERSION_MAJOR}.${PYTHON_VERSION_MINOR})
 
-  # Make sure swig places wrapper/.py collateral under python2/3 directory
+  # Make sure swig places wrapper/.py collateral under python3 directory
   # Save the original BINARY_DIR, set a new BINARY_DIR, then restore at
   # the end of this macro. This works for cmake > 3 and works AROUND a bug in
   # cmake < 3 (#13173,#13772,#14459).
   set(CMAKE_CURRENT_BINARY_DIR_SAVED ${CMAKE_CURRENT_BINARY_DIR})
   set(CMAKE_CURRENT_BINARY_DIR ${CMAKE_CURRENT_PYTHON_BINARY_DIR})
 
-  # Swig module name (example: pyupm_a110x-python2)
+  # Swig module name (example: pyupm_a110x-python3)
   set (python_wrapper_name pyupm_${libname}-python${PYTHON_VERSION_MAJOR})
   if (CMAKE_VERSION VERSION_LESS "3.8")
       swig_add_module (${python_wrapper_name} python ${SWIG_CURRENT_DOT_I_FILE})
   else ()
       swig_add_library (${python_wrapper_name} LANGUAGE python SOURCES ${SWIG_CURRENT_DOT_I_FILE})
   endif ()
-  # Get target library name (example _pyupm_a110x-python2)
+  # Get target library name (example _pyupm_a110x-python3)
   set (python_wrapper_target ${SWIG_MODULE_${python_wrapper_name}_REAL_NAME})
 
   if(module_iface)
@@ -373,7 +371,7 @@ macro(_upm_swig_python)
     endif()
   endif (BUILDDOC)
 
-  # Python collateral names will be the same for python2/3 w/different library dirs
+  # Python collateral names will be the same w/different library dirs
   set_target_properties (${python_wrapper_target} PROPERTIES
       OUTPUT_NAME _pyupm_${libname}
       LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_PYTHON_BINARY_DIR})
@@ -392,24 +390,10 @@ macro(_upm_swig_python)
   set(CMAKE_CURRENT_BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR_SAVED})
 endmacro(_upm_swig_python)
 
-# Generate both python2 and python3 modules if possible
+# Generate only python3 modules if possible
 function(upm_swig_python)
   # Skip if the libname is in the blacklist
   if (NOT ";${PYTHONSWIG_BLACKLIST};" MATCHES ";${libname};")
-    # Generate python2 module if python2 libs are available
-    if (PYTHON2LIBS_FOUND)
-      set(PYTHON_INCLUDE_DIRS ${PYTHON2_INCLUDE_DIRS})
-      set(PYTHON_INCLUDE_PATH ${PYTHON2_INCLUDE_PATH})
-      set(PYTHON_LIBRARIES ${PYTHON2_LIBRARIES})
-      set(PYTHON_VERSION_MAJOR ${PYTHON2_VERSION_MAJOR})
-      set(PYTHON_VERSION_MINOR ${PYTHON2_VERSION_MINOR})
-      set(PYTHON_PACKAGES_PATH ${PYTHON2_PACKAGES_PATH})
-      _upm_swig_python()
-
-      # Keep track of all Python2 targets
-      set(UPM_TARGETS_PYTHON2 ${UPM_TARGETS_PYTHON2} ${python_wrapper_target}
-          CACHE INTERNAL "List of Python target names")
-    endif (PYTHON2LIBS_FOUND)
 
     # Generate python3 module if python3 libs are available
     if (PYTHON3LIBS_FOUND)
@@ -950,11 +934,6 @@ endfunction(upm_module_init)
 # Top-level module init
 if (BUILDSWIGPYTHON)
   file (WRITE ${CMAKE_CURRENT_BINARY_DIR}/__init__.py "# UPM python modules")
-  if(PYTHON2LIBS_FOUND)
-    install (FILES ${CMAKE_CURRENT_BINARY_DIR}/__init__.py
-        DESTINATION ${PYTHON2_PACKAGES_PATH}/upm
-        COMPONENT ${CMAKE_PROJECT_NAME}-python2)
-  endif(PYTHON2LIBS_FOUND)
   if(PYTHON3LIBS_FOUND)
     install (FILES ${CMAKE_CURRENT_BINARY_DIR}/__init__.py
         DESTINATION ${PYTHON3_PACKAGES_PATH}/upm
@@ -967,7 +946,6 @@ set(UPM_TARGETS_C "" CACHE INTERNAL "List of C target names")
 set(UPM_TARGETS_CXX "" CACHE INTERNAL "List of CXX target names")
 set(UPM_TARGETS_JAVA "" CACHE INTERNAL "List of JAVA target names")
 set(UPM_TARGETS_NODEJS "" CACHE INTERNAL "List of NodeJs target names")
-set(UPM_TARGETS_PYTHON2 "" CACHE INTERNAL "List of Python2 target names")
 set(UPM_TARGETS_PYTHON3 "" CACHE INTERNAL "List of Python3 target names")
 
 # MODULE_LIST can be specified on the CMake command line to specify
@@ -1009,4 +987,3 @@ endif (BUILDSWIGJAVA)
 
 # Available to the top-level CMakeLists.txt
 set (UPM_TARGETS_CXX ${UPM_TARGETS_CXX} PARENT_SCOPE)
-set (UPM_TARGETS_PYTHON2 ${UPM_TARGETS_PYTHON2} PARENT_SCOPE)

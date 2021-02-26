@@ -18,7 +18,7 @@ valid_encodings = ['ascii', 'utf-8']
 
 class EncodingTests(unittest.TestCase):
     '''Non-ascii/utf-8 encodings can cause failures on downstream tools
-    such as documentation-generation and python2 module loading.  This
+    such as documentation-generation and python module loading.  This
     class helps find those files which could cause an encoding problem'''
 
     def test_headers_ascii(self):
